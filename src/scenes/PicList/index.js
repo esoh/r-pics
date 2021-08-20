@@ -31,12 +31,13 @@ const fuseOpts = { keys: ['data.title'] };
 
 function PicList({ classes }) {
   const [searchText, setSearchText] = useState('');
+  const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [selectedPic, setSelectedPic] = useState(null);
   const { data, loading } = usePicDataQuery();
   const imageData = data?.data?.children;
   const options = useFuse(searchText, imageData, fuseOpts);
 
-  const handleClose = () => setSelectedPic(null);
+  const handleClose = () => setIsDialogVisible(false);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
@@ -56,7 +57,10 @@ function PicList({ classes }) {
                 key={opt.data.id}
                 divider
                 button
-                onClick={() => setSelectedPic(opt)}
+                onClick={() => {
+                  setIsDialogVisible(true);
+                  setSelectedPic(opt);
+                }}
               >
                 <ListItemAvatar>
                   <Avatar variant="square" src={opt.data.thumbnail} />
@@ -70,7 +74,7 @@ function PicList({ classes }) {
 
       <Dialog
         fullScreen
-        open={!!selectedPic}
+        open={isDialogVisible}
         onClose={handleClose}
       >
         <DialogTitle onClose={handleClose}>
