@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
 import ActionBar from './ActionBar';
 import { useFuse, usePicDataQuery } from './hooks';
 
@@ -25,9 +28,17 @@ function PicList() {
             <CircularProgress />
           </div>
         ) : (
-          <List>
+          <List divider>
             {options.map(opt => (
-              <div>{opt.data.title}</div>
+              <ListItem
+                key={opt.data.id}
+                divider
+              >
+                <ListItemAvatar>
+                  <Avatar variant="square" src={opt.data.thumbnail} />
+                </ListItemAvatar>
+                <ListItemText>{opt.data.title}</ListItemText>
+              </ListItem>
             ))}
           </List>
         )}
